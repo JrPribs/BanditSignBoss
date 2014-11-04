@@ -15,7 +15,7 @@ router.post("/", function(req, res, next){
 		}
 		fs.exists(req.files.myFile.path, function(exists){
 			if(exists){
-				res.end("File Uploaded Successfully!");
+				res.render("uploadPage", {title:"File Uploaded Successfully!"});
 			}else{
 				res.end("File upload failed! You suck!");
 			}
