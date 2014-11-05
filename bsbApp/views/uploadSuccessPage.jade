@@ -3,5 +3,6 @@ extends layout
 block content
 
 	h1 File Uploaded Successfully!
-	h2 Image was taken at #{coords}
-	img(src='/images/#{file}' width='500px' height='500px')
+	each file in files
+		h2 Image was taken at #{file.coords}
+		img(src='/images/#{file.file}' width='500px' height='500px')
