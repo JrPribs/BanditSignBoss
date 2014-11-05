@@ -23,7 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(multer({
-	dest: './uploads/'
+	dest: './public/images/',
+    rename: function(fieldname, filename){
+        return fieldname + Date.now();
+    }
 }));
 
 app.use(cookieParser());
