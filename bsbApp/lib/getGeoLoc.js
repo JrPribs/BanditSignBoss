@@ -2,13 +2,7 @@
 
 var ExifImage = require('exif').ExifImage;
 var async = require('async');
-var crypto = require('crypto');
-
-var randomHash = function() {
-    var current_date = (new Date()).valueOf().toString();
-    var random = Math.random().toString();
-    return crypto.createHash('sha1').update(current_date + random).digest('hex');
-};
+var randomHash = require('./utils').randomHash;
 
 var extractGeo = function(options, callback) {
     var imageOutput = [];
@@ -33,7 +27,7 @@ var extractGeo = function(options, callback) {
 
         }
 
-        new ExifImage({
+        (new ExifImage({
                 image: imgWithPath
             },
             function exifGather(error, exifData) {
@@ -54,7 +48,7 @@ var extractGeo = function(options, callback) {
 
                 }
 
-            });
+            }));
 
     }
 
@@ -67,21 +61,17 @@ var extractGeo = function(options, callback) {
         });
 };
 
-
 /*
-
-var options = {
-    path: '../bin/public/images/',
-    images: ['20140410_102743.JPG',
-        '1.jpg', '2.jpg', '3.jpg',
-        '4.jpg', '5.jpg', '6.jpg'
+extractGeo({
+    path: '/',
+    images: ['IMG_1705.jpg',
+        'IMG_1706.jpg', 'IMG_1714.jpg', 'IMG_1734.jpg',
+        'IMG_1707.jpg'
     ],
     limit: 10
-}
-extractGeo(options, function(images) {
+}, function(images) {.
     console.log(images);
 });
-
 */
 
 module.exports.getGeoLoc = extractGeo;
