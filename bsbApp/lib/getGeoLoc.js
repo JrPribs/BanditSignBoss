@@ -51,7 +51,7 @@ var extractGeo = function(options, callback) {
                     imageOutput.push(withHasCoordinates);
 
                     callback(null);
-                    
+
                 }
 
             });
@@ -69,6 +69,7 @@ var extractGeo = function(options, callback) {
 
 
 /*
+
 var options = {
     path: '../bin/public/images/',
     images: ['20140410_102743.JPG',
@@ -80,6 +81,7 @@ var options = {
 extractGeo(options, function(images) {
     console.log(images);
 });
+
 */
 
 module.exports.getGeoLoc = extractGeo;
