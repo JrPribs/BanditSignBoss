@@ -60,6 +60,7 @@ router.post("/", function(req, res, next) {
                     lng: lng
                 };
                 geoCoords = coordinate.lat + ' ' + coordinate.lng;
+                console.log(geoCoords);
                 callback(geoCoords);
             });
         }
@@ -77,7 +78,7 @@ router.post("/", function(req, res, next) {
                 }
                 degrees += coord;
             }
-            return degrees.toFixed(6);
+            return degrees.toFixed(10);
         }
 
 
