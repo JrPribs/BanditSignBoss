@@ -57,14 +57,14 @@ var extractGeo = function(options, callback) {
 
             });
 
-    };
+    }
 
     async.eachLimit(
         options.images,
         options.limit,
         doExtract,
         function fin(err) {
-            callback(imageOutput);
+            callback(err || imageOutput);
         });
 };
 
