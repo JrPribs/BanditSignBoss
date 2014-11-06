@@ -101,9 +101,10 @@ router.post("/", function(req, res, next) {
 
         gatherImages(req.files.myFile, function(uploads) {
             processImages(uploads, function(finalImages) {
-                res.render("uploadSuccessPage", {
+                res.render("uploadMapPage", {
                     title: "File(s) Uploaded Successfully!",
-                    files: finalImages
+                    files: finalImages,
+                    scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c','/javascripts/getPoints.js']
                 });
             });
         });
