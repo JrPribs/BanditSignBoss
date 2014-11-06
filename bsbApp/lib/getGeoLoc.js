@@ -19,15 +19,13 @@ var extractGeo = function(options, callback) {
 
         function hasCoordinates(image) {
             var gps = image.exif.gps;
+            image.coordinates = false;
 
             if (gps.GPSLatitude && gps.GPSLongitude) {
-
                 image.coordinates = {
                     latitude: gps.GPSLatitude,
                     longitude: gps.GPSLongitude,
                 };
-            } else {
-                image.coordinates = false;
             }
 
             delete image.exif;
@@ -53,6 +51,7 @@ var extractGeo = function(options, callback) {
                     imageOutput.push(withHasCoordinates);
 
                     callback(null);
+                    
                 }
 
             });
