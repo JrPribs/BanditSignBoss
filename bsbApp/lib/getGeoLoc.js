@@ -26,9 +26,10 @@ var extractGeo = function(options, callback) {
                     latitude: gps.GPSLatitude,
                     longitude: gps.GPSLongitude,
                 };
+            } else {
+                image.coordinates = false;
             }
 
-            image.coordinates = false;
             delete image.exif;
             return image;
 
