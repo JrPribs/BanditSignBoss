@@ -9,7 +9,8 @@ var multer = require('multer');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var uploads = require('./routes/uploads');
-
+var signup = require('./routes/signup');
+var login = require('./routes/login');
 var app = express();
 
 // view engine setup
@@ -36,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/signup', signup);
+app.use('/login', login);
 app.use('/uploads', uploads);
 
 // catch 404 and forward to error handler

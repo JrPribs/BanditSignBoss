@@ -6,7 +6,7 @@ var im = require('imagemagick');
 
 router.get('/', function(req, res) {
     res.render("uploadPage", {
-        title: "Nodejs File Uploads Testing for BSB"
+        title: "Bandit Sign Boss Photo Uploader"
     });
 });
 
@@ -78,7 +78,7 @@ router.post("/", function(req, res, next) {
                 }
                 degrees += coord;
             }
-            return degrees.toFixed(10);
+            return degrees.toFixed(6);
         }
 
 

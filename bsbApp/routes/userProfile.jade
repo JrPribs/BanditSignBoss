@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    if user
+        div.welcomebox
+            p Welcome #{user.name}
+    else
+        div.loginbox
+        form(name="login", action="/login", method="post")
+            input(type="text", name="user")
+            input(type="password", name="pass")
+            input.btn.btn-primary.btn-lg(type="submit" value="login")
+        p Don't have a login?
+            button(class="btn btn-primary btn-lg" data-toggle="modal" data-target="#signUpModal") Sign Up!
+        div(class="modal fade" id="signUpModal")
+        	div.modal-dialog
+    			div.modal-content
+      				div.modal-header
+        				h4.modal-title Modal title
+      				div.modal-body
+        				form(name="signup" action="/signup" method="post")
+        					label(for="givenName") First name
+        					input(type="text" name="givenName")
+        					label(for="surname") Last name
+        					input(type="text" name="surname")
+        					label(for="username") Username
+        					input(type="text" name="username")
+        					label(for="password") Password
+        					input(type="password" name="password")
+        					label(for="confirmPassword")
+        					input(type="password" name="confirmpassword")
+        					input.btn.btn-primary.btn-lg(type="submit" value="signup")
