@@ -3,10 +3,12 @@ var router = express.Router();
 var util = require('util');
 var fs = require('fs');
 var im = require('imagemagick');
+var _ = require('lodash');
 
 router.get('/', function(req, res) {
     res.render("uploadPage", {
-        title: "Bandit Sign Boss Photo Uploader"
+        title: "Bandit Sign Boss Photo Uploader",
+        scripts: ['/javascripts/uploadFiles.js']
     });
 });
 
@@ -19,6 +21,12 @@ router.post("/", function(req, res, next) {
 
 
         function gatherImages(files, callback) {
+
+            //accept single image upload
+            if(!_.isArray(files)){
+                files = [files];
+            }
+
             var uploads = [];
             var count = 0;
             files.forEach(function(file) {
@@ -44,23 +52,28 @@ router.post("/", function(req, res, next) {
 
         function getGeoLoc(path, callback) {
             im.readMetadata('./' + path, function(error, metadata) {
+                var geoCoords = false;
                 if (error) throw error;
-                var lat = getDegrees(metadata.exif.gpsLatitude.split(','));
-                var latRef = metadata.exif.gpsLatitudeRef;
-                if (latRef === 'S') {
-                    lat = lat * -1;
+
+                if (metadata.exif.gpsLatitude && metadata.exif.gpsLatitudeRef) {
+                    var lat = getDegrees(metadata.exif.gpsLatitude.split(','));
+                    var latRef = metadata.exif.gpsLatitudeRef;
+                    if (latRef === 'S') {
+                        lat = lat * -1;
+                    }
+                    var lng = getDegrees(metadata.exif.gpsLongitude.split(','));
+                    var lngRef = metadata.exif.gpsLongitudeRef;
+                    if (lngRef === 'W') {
+                        lng = lng * -1;
+                    }
+                    var coordinate = {
+                        lat: lat,
+                        lng: lng
+                    };
+                    geoCoords = coordinate.lat + ' ' + coordinate.lng;
+                    console.log(geoCoords);
                 }
-                var lng = getDegrees(metadata.exif.gpsLongitude.split(','));
-                var lngRef = metadata.exif.gpsLongitudeRef;
-                if (lngRef === 'W') {
-                    lng = lng * -1;
-                }
-                var coordinate = {
-                    lat: lat,
-                    lng: lng
-                };
-                geoCoords = coordinate.lat + ' ' + coordinate.lng;
-                console.log(geoCoords);
+
                 callback(geoCoords);
             });
         }
@@ -87,13 +100,13 @@ router.post("/", function(req, res, next) {
             var finalImages = [];
             var count = 0;
             uploads.forEach(function(upload) {
-            	var path = upload.imgPath;
+                var path = upload.imgPath;
                 getGeoLoc(path, function(geoCoords) {
                     upload.coords = geoCoords;
                     finalImages.push(upload);
                     count++;
                     if (uploads.length === count) {
-                    	callback(finalImages);
+                        callback(finalImages);
                     }
                 });
             });
@@ -105,7 +118,7 @@ router.post("/", function(req, res, next) {
                 res.render("uploadMapPage", {
                     title: "File(s) Uploaded Successfully!",
                     files: finalImages,
-                    scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c','/javascripts/getPoints.js']
+                    scripts: ['https://maps.googleapis.com/maps/api/js?key=AIzaSyCU42Wpv6BtNO51t7xGJYnatuPqgwnwk7c', '/javascripts/getPoints.js']
                 });
             });
         });

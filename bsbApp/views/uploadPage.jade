@@ -2,8 +2,10 @@ extends layout
 
 block content
 	h1= title
-	form#fileUpload(method="post" action="/uploads" enctype="multipart/form-data")
-		label(for="payload") Select a file to upload:
-		input#payload(type="file" name="myFile" accept="image/*" multiple)
-		br
-		button#upload Upload
+	form#fileUpload.form-inline(method="post" action="/uploads" enctype="multipart/form-data" role='form')
+		.form-group
+			input#exampleInputEmail1.form-control(type="file" name="myFile" accept="image/*" multiple onchange="previewAttached(this)")
+			button#upload.btn.btn-default(type='submit') Upload
+	div#alert
+	div.well
+		div.imagepreviews.row
